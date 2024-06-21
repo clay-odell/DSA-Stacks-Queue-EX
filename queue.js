@@ -45,8 +45,9 @@ class Queue {
       if (this.size === 0) {
         this.last = null;
       }
+      return firstNode.val;
     }
-    return firstNode.val;
+    
 
   }
 
@@ -62,10 +63,7 @@ class Queue {
   /** isEmpty(): return true if the queue is empty, otherwise false */
 
   isEmpty() {
-    if (this.first === null && this.last === null){
-      return true;
-    }
-  }
+    return this.first === null && this.last === null;
 }
-
+}
 module.exports = Queue;

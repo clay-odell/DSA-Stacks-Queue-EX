@@ -7,27 +7,39 @@ class Node {
   }
 }
 
+class LinkedList{
+  constructor(){
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
+  }
+}
+
 /** Queue: chained-together nodes where you can
  *  remove from the front or add to the back. */
 
 class Queue {
   constructor() {
+    this.size = 0;
     this.first = null;
     this.last = null;
-    this.size = 0;
+    this._list = new LinkedList();
   }
+
 
   /** enqueue(val): add new value to end of the queue. Returns undefined. */
 
   enqueue(val) {
     let newNode = new Node(val);
-
-    if(!this.first) {
-      this.first = newNode;
-      this.last = newNode;
+    if (this.size === 0) {
+      this._list.head = newNode;
+      this._list.tail = newNode;
+      this.first = this._list.head;
+      this.last = this._list.tail;
     } else {
-      this.last.next = newNode;
-      this.last = newNode;
+      this._list.tail.next = newNode;
+      this._list.tail = newNode;
+      this.last = this._list.tail;
     }
     this.size++;
   }
@@ -36,34 +48,35 @@ class Queue {
    * and return its value. Should throw an error if the queue is empty. */
 
   dequeue() {
-    if (this.first === null || this.size === 0){
-      throw new Error('Error: Queue is empty!');
+    if (this.first === null || this.size === 0) {
+      throw new Error("Error: Queue is empty!");
     } else {
-      let firstNode = this.first;
-      this.first = this.first.next;
-      this.size = this.size -1;
-      if (this.size === 0) {
+      let firstNode = this._list.head;
+      this._list.head = this._list.head.next;
+      this.size--;
+      if (this.size === 0){
+        this._list.tail = null;
         this.last = null;
+      } else {
+        this.first = this._list.head;
       }
       return firstNode.val;
     }
-    
-
   }
 
   /** peek(): return the value of the first node in the queue. */
 
   peek() {
     if (this.first === null) {
-      throw new Error('Error: Queue is empty!');
+      throw new Error("Error: Queue is empty!");
     }
-    return this.first.val;
+    return this._list.head.val;
   }
 
   /** isEmpty(): return true if the queue is empty, otherwise false */
 
   isEmpty() {
     return this.first === null && this.last === null;
-}
+  }
 }
 module.exports = Queue;
